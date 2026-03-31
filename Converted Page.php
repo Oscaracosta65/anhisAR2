@@ -38,6 +38,7 @@ $db    = Factory::getDbo();
 $user  = Factory::getUser();
 
 $gameId = 'AR2';
+$gId    = $gameId; // Canonical ID used in URL construction throughout this page.
 
 /**
  * --------------------------------------------------------------------------
@@ -387,7 +388,6 @@ $nodCurrentEs   = max(10, min(700, $nodCurrentEs));
 $latestRows = leFetchRecentDraws($db, (string) $dbCol, $gameId, 1);
 $lr = !empty($latestRows) ? $latestRows[0] : null;
 
-$gId          = $gameId;
 $drawDate     = $lr ? (string) ($lr['draw_date']      ?? '') : '';
 $nextDrawDate = $lr ? (string) ($lr['next_draw_date'] ?? '') : '';
 $nextJackpot  = $lr ? (string) ($lr['next_jackpot']   ?? '') : '';
