@@ -47,9 +47,12 @@ $gId    = $gameId; // Canonical ID used in URL construction throughout this page
  */
 $uri = Uri::getInstance();
 $canonicalNoQuery = $uri->toString(['scheme', 'host', 'port', 'path']);
-$doc->addCustomTag('<link rel="canonical" href="' . htmlspecialchars($canonicalNoQuery, ENT_QUOTES, 'UTF-8') . '" />');
-$doc->addCustomTag('<link rel="alternate" hreflang="en" href="' . htmlspecialchars($canonicalNoQuery, ENT_QUOTES, 'UTF-8') . '" />');
-$doc->addCustomTag('<link rel="alternate" hreflang="x-default" href="' . htmlspecialchars($canonicalNoQuery, ENT_QUOTES, 'UTF-8') . '" />');
+$canonicalNoQuery = (filter_var($canonicalNoQuery, FILTER_VALIDATE_URL) !== false) ? $canonicalNoQuery : '';
+if ($canonicalNoQuery !== '') {
+    $doc->addCustomTag('<link rel="canonical" href="' . htmlspecialchars($canonicalNoQuery, ENT_QUOTES, 'UTF-8') . '" />');
+    $doc->addCustomTag('<link rel="alternate" hreflang="en" href="' . htmlspecialchars($canonicalNoQuery, ENT_QUOTES, 'UTF-8') . '" />');
+    $doc->addCustomTag('<link rel="alternate" hreflang="x-default" href="' . htmlspecialchars($canonicalNoQuery, ENT_QUOTES, 'UTF-8') . '" />');
+}
 
 if (isset($stateName, $gName) && $stateName !== '' && $gName !== '') {
     $doc->setTitle('Results Intelligence — ' . $stateName . ' • ' . $gName . ' | LottoExpert.net');
